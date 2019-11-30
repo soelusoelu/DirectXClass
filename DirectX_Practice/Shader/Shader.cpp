@@ -18,8 +18,6 @@ Shader::Shader() :
     cb.usage = BufferUsage::BUFFER_USAGE_DYNAMIC;
     cb.type = BufferType::BUFFER_TYPE_CONSTANT_BUFFER;
     cb.cpuAccessFlags = CPUAccessFlag::CPU_ACCESS_WRITE;
-    cb.miscFlags = 0;
-    cb.structureByteStride = 0;
 
     mConstantBuffer = Renderer::createBuffer(cb);
 }

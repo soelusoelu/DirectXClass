@@ -15,10 +15,10 @@ enum class BufferType {
 };
 
 enum class BufferUsage {
-    BUFFER_USAGE_DEFAULT,
-    BUFFER_USAGE_IMMUTABLE,
-    BUFFER_USAGE_DYNAMIC,
-    BUFFER_USAGE_STAGING
+    BUFFER_USAGE_DEFAULT, //GPUによる読み書き
+    BUFFER_USAGE_IMMUTABLE, //GPUの読み取りのみ可能
+    BUFFER_USAGE_DYNAMIC, //GPUとCPU両方からアクセス可能
+    BUFFER_USAGE_STAGING //GPUからCPUへのデータ転送をサポート
 };
 
 enum class CPUAccessFlag {
@@ -38,6 +38,7 @@ struct BufferDesc {
     CPUAccessFlag cpuAccessFlags;
     //オプション 基本0
     unsigned miscFlags;
+    //コンピュートシェーダを使うなら 基本0
     unsigned structureByteStride;
 
     //コンストラクタ

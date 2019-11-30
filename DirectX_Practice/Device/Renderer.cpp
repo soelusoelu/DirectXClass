@@ -30,6 +30,10 @@ void Renderer::setVertexBuffer(const VertexStreamDesc& stream, unsigned numStrea
     Direct3D11::mDeviceContext->IASetVertexBuffers(start, numStream, &buffer, &stream.stride, &stream.offset);
 }
 
+void Renderer::setIndexBuffer(const Buffer& buffer, unsigned offset) {
+    Direct3D11::mDeviceContext->IASetIndexBuffer(buffer.buffer(), DXGI_FORMAT_R16_UINT, offset);
+}
+
 void Renderer::setInputLayout(std::shared_ptr<InputElement> layout) {
     Direct3D11::mDeviceContext->IASetInputLayout(layout->layout());
 }
@@ -64,20 +68,20 @@ ID3D11PixelShader* Renderer::getPixelShader(const char* fileName, const char* fu
     return pixel;
 }
 
-std::shared_ptr<Texture> Renderer::getTexture(const std::string& fileName) {
+std::shared_ptr<Texture> Renderer::getTexture(const char* fileName) {
     std::shared_ptr<Texture> texture;
     auto itr = mTextures.find(fileName);
     if (itr != mTextures.end()) { //既に読み込まれている
         texture = itr->second;
     } else { //初読み込み
         texture = std::make_shared<Texture>();
-        texture->init(fileName);
+        texture->create(fileName);
         mTextures.emplace(fileName, texture);
     }
     return texture;
 }
 
-std::shared_ptr<SoundInfo> Renderer::getSound(const std::string& fileName) {
+std::shared_ptr<SoundInfo> Renderer::getSound(const char* fileName) {
     std::shared_ptr<SoundInfo> soundInfo;
     auto itr = mSounds.find(fileName);
     if (itr != mSounds.end()) { //既に読み込まれている
@@ -92,6 +96,10 @@ std::shared_ptr<SoundInfo> Renderer::getSound(const std::string& fileName) {
 
 void Renderer::draw(unsigned numVertex, unsigned start) {
     Direct3D11::mDeviceContext->Draw(numVertex, start);
+}
+
+void Renderer::drawIndexed(unsigned numIndices, unsigned startIndex, int startVertex) {
+    Direct3D11::mDeviceContext->DrawIndexed(numIndices, startIndex, startVertex);
 }
 
 //現状重い
@@ -150,5 +158,5 @@ D3D11_PRIMITIVE_TOPOLOGY Renderer::toPrimitiveMode(PrimitiveType primitive) {
 
 std::unordered_map<const char*, ID3D11VertexShader*> Renderer::mVertexShaders;
 std::unordered_map<const char*, ID3D11PixelShader*> Renderer::mPixelShaders;
-std::unordered_map<std::string, std::shared_ptr<Texture>> Renderer::mTextures;
-std::unordered_map<std::string, std::shared_ptr<SoundInfo>> Renderer::mSounds;
+std::unordered_map<const char*, std::shared_ptr<Texture>> Renderer::mTextures;
+std::unordered_map<const char*, std::shared_ptr<SoundInfo>> Renderer::mSounds;

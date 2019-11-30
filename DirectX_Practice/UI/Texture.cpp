@@ -19,12 +19,6 @@ Texture::~Texture() {
     SAFE_RELEASE(mTexture);
 }
 
-void Texture::init(const std::string& fileName) {
-    if (FAILED(createTexture(fileName))) {
-        MessageBox(0, L"テクスチャ作成失敗", NULL, MB_OK);
-    }
-}
-
 void Texture::createVertexLayout(ID3D10Blob* compiledShader) {
     static constexpr InputElementDesc layout[] = {
         { "POSITION", 0, VertexType::VERTEX_TYPE_FLOAT3, 0, 0, SlotClass::SLOT_CLASS_VERTEX_DATA, 0 },
@@ -59,6 +53,8 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
     stream.offset = 0;
     stream.stride = sizeof(TextureVertex);
     Renderer::setVertexBuffer(stream);
+    //インデックスバッファーをセット
+    Renderer::setIndexBuffer(*mIndexBuffer);
     //サンプラーのセット
     Direct3D11::mDeviceContext->PSSetSamplers(0, 1, &mSampleLinear);
 
@@ -96,7 +92,7 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
         //テクスチャーをシェーダーに渡す
         shader->setPSTextures(sprite->texture());
         //プリミティブをレンダリング
-        Renderer::draw(4);
+        Renderer::drawIndexed(6);
     }
 }
 
@@ -104,45 +100,69 @@ ID3D11ShaderResourceView* Texture::texture() const {
     return mTexture;
 }
 
-HRESULT Texture::createTexture(const std::string& fileName) {
+void Texture::create(const char* fileName) {
     if (!mVertexBuffer) {
         //バーテックスバッファー作成
-        TextureVertex vertices[] = {
-            Vector3(0.f, 0.f, 0.f), Vector2(0.f, 0.f), //左上
-            Vector3(1.f, 0.f, 0.f), Vector2(1.f, 0.f), //右上
-            Vector3(0.f, 1.f, 0.f), Vector2(0.f, 1.f), //左下
-            Vector3(1.f, 1.f, 0.f), Vector2(1.f, 1.f), //右下
-        };
-
-        BufferDesc bd;
-        bd.size = sizeof(TextureVertex) * 4;
-        bd.usage = BufferUsage::BUFFER_USAGE_DEFAULT;
-        bd.type = BufferType::BUFFER_TYPE_VERTEX;
-        bd.cpuAccessFlags = CPUAccessFlag::CPU_ACCESS_NONE;
-        bd.miscFlags = 0;
-        bd.structureByteStride = 0;
-
-        SubResourceDesc sub;
-        sub.data = vertices;
-        mVertexBuffer = Renderer::createBuffer(bd, &sub);
-
+        createVertexBuffer();
+        //インデックスバッファの作成
+        createIndexBuffer();
         //テクスチャー用サンプラー作成
-        D3D11_SAMPLER_DESC SamDesc;
-        ZeroMemory(&SamDesc, sizeof(D3D11_SAMPLER_DESC));
-        SamDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-        SamDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-        SamDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-        SamDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-        Direct3D11::mDevice->CreateSamplerState(&SamDesc, &mSampleLinear);
+        createSampler();
     }
     //テクスチャー作成
-    setTextureDirectory();
-    if (FAILED(D3DX11CreateShaderResourceViewFromFileA(Direct3D11::mDevice, fileName.c_str(), NULL, NULL, &mTexture, NULL))) {
-        return E_FAIL;
-    }
+    createTexture(fileName);
+}
 
-    return S_OK;
+void Texture::createVertexBuffer() {
+    static const TextureVertex vertices[] = {
+        Vector3(0.f, 0.f, 0.f), Vector2(0.f, 0.f), //左上
+        Vector3(1.f, 0.f, 0.f), Vector2(1.f, 0.f), //右上
+        Vector3(0.f, 1.f, 0.f), Vector2(0.f, 1.f), //左下
+        Vector3(1.f, 1.f, 0.f), Vector2(1.f, 1.f), //右下
+    };
+
+    BufferDesc bd;
+    bd.size = sizeof(TextureVertex) * 4;
+    bd.usage = BufferUsage::BUFFER_USAGE_IMMUTABLE;
+    bd.type = BufferType::BUFFER_TYPE_VERTEX;
+
+    SubResourceDesc sub;
+    sub.data = vertices;
+    mVertexBuffer = Renderer::createBuffer(bd, &sub);
+}
+
+void Texture::createIndexBuffer() {
+    static constexpr unsigned short indices[] = {
+        0, 1, 2,
+        1, 3, 2
+    };
+    BufferDesc bd;
+    bd.size = sizeof(indices);
+    bd.usage = BufferUsage::BUFFER_USAGE_IMMUTABLE;
+    bd.type = BufferType::BUFFER_TYPE_INDEX;
+
+    SubResourceDesc sub;
+    sub.data = indices;
+    mIndexBuffer = Renderer::createBuffer(bd, &sub);
+}
+
+void Texture::createSampler() {
+    D3D11_SAMPLER_DESC sd;
+    ZeroMemory(&sd, sizeof(D3D11_SAMPLER_DESC));
+    sd.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sd.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sd.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sd.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    Direct3D11::mDevice->CreateSamplerState(&sd, &mSampleLinear);
+}
+
+void Texture::createTexture(const char* fileName) {
+    setTextureDirectory();
+    if (FAILED(D3DX11CreateShaderResourceViewFromFileA(Direct3D11::mDevice, fileName, nullptr, nullptr, &mTexture, nullptr))) {
+        MessageBox(0, L"テクスチャ作成失敗", NULL, MB_OK);
+    }
 }
 
 ID3D11SamplerState* Texture::mSampleLinear = nullptr;
 std::shared_ptr<Buffer> Texture::mVertexBuffer = nullptr;
+std::shared_ptr<Buffer> Texture::mIndexBuffer = nullptr;

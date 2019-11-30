@@ -2,7 +2,6 @@
 
 #include "../Utility/Math.h"
 #include <memory>
-#include <string>
 
 enum class SpriteState {
     Active, //常に描画
@@ -15,7 +14,7 @@ class Texture;
 
 class Sprite {
 public:
-    Sprite(const std::string& fileName, const Vector2& size, float z);
+    Sprite(const char* fileName, const Vector2& size, float z);
     ~Sprite();
     Sprite(const Sprite& sprite);
     //SpriteManagerにて毎フレーム実行
@@ -59,12 +58,12 @@ public:
     //World行列の取得
     const Matrix4 getWorld() const;
     //テクスチャの取得
-    void setTexture(const std::string& fileName, const Vector2& size);
+    void setTexture(const char* fileName, const Vector2& size);
     const std::shared_ptr<Texture> texture() const;
     //シェーダーの取得
     std::shared_ptr<Shader> shader() const;
     //ファイル名の取得
-    const std::string& fileName() const;
+    const char* fileName() const;
     //ワールド行列の変更フラグ
     bool getWorldUpdateFlag() const;
     void onceToDead();
@@ -89,7 +88,7 @@ private:
     SpriteState mState;
     std::shared_ptr<Texture> mTexture;
     std::shared_ptr<Shader> mShader;
-    std::string mFileName;
+    const char* mFileName;
     bool mWorldUpdateFlag;
 };
 

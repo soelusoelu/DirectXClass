@@ -9,7 +9,7 @@ class Sprite;
 
 class SpriteComponent : public Component {
 public:
-    SpriteComponent(Actor* owner, const std::string& fileName, const Vector2& size, float z);
+    SpriteComponent(Actor* owner, const char* fileName, const Vector2& size, float z);
     ~SpriteComponent();
     virtual void update() override;
     Sprite* getSprite() const;

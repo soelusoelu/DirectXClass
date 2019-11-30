@@ -9,6 +9,12 @@ struct SubResourceDesc {
     //3Dテクスチャのみで使用
     //ある深さレベルの開始から次の深さまでの距離
     unsigned slicePitch;
+
+    SubResourceDesc() :
+        data(nullptr),
+        pitch(0),
+        slicePitch(0) {
+    }
 };
 
 struct MappedSubResourceDesc {
@@ -18,4 +24,10 @@ struct MappedSubResourceDesc {
     unsigned rowPitch;
     //データの深さピッチ
     unsigned depthPitch;
+
+    MappedSubResourceDesc() :
+        data(nullptr),
+        rowPitch(0),
+        depthPitch(0) {
+    }
 };

@@ -4,7 +4,6 @@
 #include "../Utility/Math.h"
 #include <list>
 #include <memory>
-#include <string>
 
 //頂点の構造体
 struct TextureVertex {
@@ -28,18 +27,22 @@ class Texture {
 public:
     Texture();
     ~Texture();
-    void init(const std::string& fileName);
+    void create(const char* fileName);
     void createVertexLayout(ID3D10Blob* compiledShader);
     static void end();
     static void drawAll(std::list<std::shared_ptr<Sprite>>* sprites);
     ID3D11ShaderResourceView* texture() const;
 
 private:
-    HRESULT createTexture(const std::string& fileName);
+    void createVertexBuffer();
+    void createIndexBuffer();
+    void createSampler();
+    void createTexture(const char* fileName);
 
 private:
     static ID3D11SamplerState* mSampleLinear;
     static std::shared_ptr<Buffer> mVertexBuffer;
+    static std::shared_ptr<Buffer> mIndexBuffer;
     std::shared_ptr<InputElement> mVertexLayout;
     ID3D11ShaderResourceView* mTexture;
 };

@@ -5,7 +5,7 @@
 #include "../Shader/Shader.h"
 #include <cassert>
 
-Sprite::Sprite(const std::string& fileName, const Vector2& size, float z) :
+Sprite::Sprite(const char* fileName, const Vector2& size, float z) :
     mDefaultSize(size),
     mCurrentSize(size),
     mPosition(Vector2::zero, z),
@@ -231,7 +231,7 @@ const Matrix4 Sprite::getWorld() const {
     return mWorld;
 }
 
-void Sprite::setTexture(const std::string & fileName, const Vector2 & size) {
+void Sprite::setTexture(const char* fileName, const Vector2 & size) {
     mDefaultSize = size;
     mCurrentSize = size;
     mPivot = mCurrentSize / 2.f;
@@ -249,7 +249,7 @@ std::shared_ptr<Shader> Sprite::shader() const {
     return mShader;
 }
 
-const std::string& Sprite::fileName() const {
+const char* Sprite::fileName() const {
     return mFileName;
 }
 
