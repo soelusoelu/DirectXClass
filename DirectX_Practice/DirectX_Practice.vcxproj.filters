@@ -351,6 +351,7 @@
     <ClInclude Include="System\VertexStreamDesc.h" />
     <ClInclude Include="System\InputElementDesc.h" />
     <ClInclude Include="System\InputElement.h" />
+    <ClInclude Include="System\SubResourceDesc.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">

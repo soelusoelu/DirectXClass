@@ -3,9 +3,11 @@
 #include "BufferDesc.h"
 #include "DirectXIncLib.h"
 
+class SubResourceDesc;
+
 class Buffer {
 public:
-    Buffer(const BufferDesc& desc, const D3D11_SUBRESOURCE_DATA* data = nullptr);
+    Buffer(const BufferDesc& desc, const SubResourceDesc* data = nullptr);
     virtual ~Buffer();
     //ディスクリプタの取得
     const BufferDesc& desc() const;
@@ -25,6 +27,8 @@ private:
     D3D11_USAGE toUsage(BufferUsage usage) const;
     //CPUアクセス権限を変換
     unsigned toCPUAccess(CPUAccessFlag flag) const;
+    //サブリソースを変換
+    D3D11_SUBRESOURCE_DATA toSubResource(const SubResourceDesc* data) const;
 
     //コピー禁止
     Buffer(const Buffer&) = delete;

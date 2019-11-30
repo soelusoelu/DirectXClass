@@ -14,19 +14,20 @@ enum class PrimitiveType {
     PRIMITIVE_TYPE_TRIANGLE_STRIP
 };
 
-class Shader;
-class Sprite;
-class Texture;
-class InputElement;
-class InputElementDesc;
 class Buffer;
 class BufferDesc;
+class InputElement;
+class InputElementDesc;
+class Shader;
+class Sprite;
+class SubResourceDesc;
+class Texture;
 class VertexStreamDesc;
 struct SoundInfo;
 
 class Renderer {
 public:
-    static std::shared_ptr<Buffer> createBuffer(const BufferDesc& desc, const D3D11_SUBRESOURCE_DATA* data = nullptr);
+    static std::shared_ptr<Buffer> createBuffer(const BufferDesc& desc, const SubResourceDesc* data = nullptr);
     static std::shared_ptr<InputElement> createInputLayout(const InputElementDesc* layout, unsigned numElements, ID3D10Blob* compile);
     static void setVertexBuffer(const VertexStreamDesc& stream, unsigned numStream = 1, unsigned start = 0);
     static void setInputLayout(std::shared_ptr<InputElement> layout);
@@ -42,16 +43,12 @@ public:
     static void clear();
 
 private:
-    static D3D_PRIMITIVE_TOPOLOGY toPrimitiveMode(PrimitiveType primitive);
+    static D3D11_PRIMITIVE_TOPOLOGY toPrimitiveMode(PrimitiveType primitive);
 
 private:
     static std::unordered_map<const char*, ID3D11VertexShader*> mVertexShaders;
     static std::unordered_map<const char*, ID3D11PixelShader*> mPixelShaders;
     static std::unordered_map<std::string, std::shared_ptr<Texture>> mTextures;
     static std::unordered_map<std::string, std::shared_ptr<SoundInfo>> mSounds;
-
-    static VertexStreamDesc mVertexStream;
-    static std::shared_ptr<InputElement> mInputLayout;
-    static D3D_PRIMITIVE_TOPOLOGY mPrimitiveMode;
 };
 

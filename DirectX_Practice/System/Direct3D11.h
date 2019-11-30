@@ -24,5 +24,6 @@ private:
     ID3D11DepthStencilView* mDepthStencilView;
     ID3D11Texture2D* mDepthStencil;
     ID3D11DepthStencilState* mDepthStencilState;
+    ID3D11BlendState* mBlendState;
 };
 

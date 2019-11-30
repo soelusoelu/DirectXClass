@@ -1,10 +1,15 @@
 #include "Buffer.h"
 #include "Direct3D11.h"
+#include "SubResourceDesc.h"
 
-Buffer::Buffer(const BufferDesc& desc, const D3D11_SUBRESOURCE_DATA* data) :
+Buffer::Buffer(const BufferDesc& desc, const SubResourceDesc* data) :
     mDesc(desc) {
     //バッファの作成
-    Direct3D11::mDevice->CreateBuffer(&toBufferDesc(desc), data, &mBuffer);
+    if (data) {
+        Direct3D11::mDevice->CreateBuffer(&toBufferDesc(desc), &toSubResource(data), &mBuffer);
+    } else {
+        Direct3D11::mDevice->CreateBuffer(&toBufferDesc(desc), nullptr, &mBuffer);
+    }
 }
 
 Buffer::~Buffer() {
@@ -20,6 +25,7 @@ void Buffer::setData(const void* data) {
     //glBindBufferARB(mTarget, mBuffer);
     //glBufferSubDataARB(mTarget, 0, mDesc.size, data);
     //glBindBufferARB(mTarget, 0);
+    //Direct3D11::mDeviceContext->UpdateSubresource()
 }
 
 void Buffer::getData(void* data) const {
@@ -77,4 +83,13 @@ unsigned Buffer::toCPUAccess(CPUAccessFlag flag) const {
         D3D11_CPU_ACCESS_READ
     };
     return accesses[static_cast<int>(flag)];
+}
+
+D3D11_SUBRESOURCE_DATA Buffer::toSubResource(const SubResourceDesc* data) const {
+    D3D11_SUBRESOURCE_DATA sub;
+    sub.pSysMem = data->data;
+    sub.SysMemPitch = data->pitch;
+    sub.SysMemSlicePitch = data->slicePitch;
+
+    return sub;
 }

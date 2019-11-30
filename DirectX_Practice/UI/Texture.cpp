@@ -7,6 +7,7 @@
 #include "../System/Direct3D11.h"
 #include "../System/Game.h"
 #include "../System/InputElement.h"
+#include "../System/SubResourceDesc.h"
 #include "../System/VertexStreamDesc.h"
 
 Texture::Texture() :
@@ -69,18 +70,18 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
         sprite->onceToDead();
 
         auto shader = sprite->shader();
-        //使用するシェーダーの登録
-        Direct3D11::mDeviceContext->VSSetShader(shader->getVertexShader(), NULL, 0);
-        Direct3D11::mDeviceContext->PSSetShader(shader->getPixelShader(), NULL, 0);
+        //自身を使用するシェーダーとして登録
+        shader->setVSShader();
+        shader->setPSShader();
         //コンスタントバッファーを使うシェーダーの登録
-        Direct3D11::mDeviceContext->VSSetConstantBuffers(0, 1, &shader->mConstantBuffer);
-        Direct3D11::mDeviceContext->PSSetConstantBuffers(0, 1, &shader->mConstantBuffer);
+        shader->setVSConstantBuffers();
+        shader->setPSConstantBuffers();
         //頂点レイアウトをセット
         Renderer::setInputLayout(sprite->texture()->mVertexLayout);
 
         //シェーダーのコンスタントバッファーに各種データを渡す
         D3D11_MAPPED_SUBRESOURCE pData;
-        if (SUCCEEDED(Direct3D11::mDeviceContext->Map(shader->mConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &pData))) {
+        if (SUCCEEDED(Direct3D11::mDeviceContext->Map(shader->getConstantBuffer()->buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &pData))) {
             TextureShaderConstantBuffer cb;
             //ワールド、カメラ、射影行列を渡す
             cb.mWorld = sprite->getWorld();
@@ -90,13 +91,12 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
             cb.mColor = sprite->getColor();
             cb.mUV = sprite->getUV();
             memcpy_s(pData.pData, pData.RowPitch, (void*)(&cb), sizeof(cb));
-            Direct3D11::mDeviceContext->Unmap(shader->mConstantBuffer, 0);
+            Direct3D11::mDeviceContext->Unmap(shader->getConstantBuffer()->buffer(), 0);
         }
         //テクスチャーをシェーダーに渡す
-        auto t = sprite->texture()->texture();
-        Direct3D11::mDeviceContext->PSSetShaderResources(0, 1, &t);
+        shader->setPSTextures(sprite->texture());
         //プリミティブをレンダリング
-        Renderer::draw(4, 0);
+        Renderer::draw(4);
     }
 }
 
@@ -122,9 +122,9 @@ HRESULT Texture::createTexture(const std::string& fileName) {
         bd.miscFlags = 0;
         bd.structureByteStride = 0;
 
-        D3D11_SUBRESOURCE_DATA initData;
-        initData.pSysMem = vertices;
-        mVertexBuffer = Renderer::createBuffer(bd, &initData);
+        SubResourceDesc sub;
+        sub.data = vertices;
+        mVertexBuffer = Renderer::createBuffer(bd, &sub);
 
         //テクスチャー用サンプラー作成
         D3D11_SAMPLER_DESC SamDesc;

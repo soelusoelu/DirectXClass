@@ -5,11 +5,12 @@
 #include "../System/DirectXIncLib.h"
 #include "../System/Direct3D11.h"
 #include "../System/InputElement.h"
+#include "../System/SubResourceDesc.h"
 #include "../System/VertexStreamDesc.h"
 #include "../UI/Texture.h"
 #include "../UI/Sprite.h"
 
-std::shared_ptr<Buffer> Renderer::createBuffer(const BufferDesc& desc, const D3D11_SUBRESOURCE_DATA* data) {
+std::shared_ptr<Buffer> Renderer::createBuffer(const BufferDesc& desc, const SubResourceDesc* data) {
     return std::make_shared<Buffer>(desc, data);
 }
 
@@ -18,7 +19,6 @@ std::shared_ptr<InputElement> Renderer::createInputLayout(const InputElementDesc
 }
 
 void Renderer::setVertexBuffer(const VertexStreamDesc& stream, unsigned numStream, unsigned start) {
-    mVertexStream = stream;
     /* IASetVertexBuffers
         使い始めのスロット番号
         頂点バッファ配列の要素数
@@ -26,18 +26,16 @@ void Renderer::setVertexBuffer(const VertexStreamDesc& stream, unsigned numStrea
         INPUT_ELEMENT_DESC構造体のサイズが入った配列への先頭ポインタ(stride(読み込み単位)として扱うため)
         頂点バッファ配列の各頂点バッファの頭出しをするオフセット値の配列
     */
-    auto buffer = mVertexStream.buffer->buffer();
-    Direct3D11::mDeviceContext->IASetVertexBuffers(start, numStream, &buffer, &mVertexStream.stride, &mVertexStream.offset);
+    auto buffer = stream.buffer->buffer();
+    Direct3D11::mDeviceContext->IASetVertexBuffers(start, numStream, &buffer, &stream.stride, &stream.offset);
 }
 
 void Renderer::setInputLayout(std::shared_ptr<InputElement> layout) {
-    mInputLayout = layout;
-    Direct3D11::mDeviceContext->IASetInputLayout(mInputLayout->layout());
+    Direct3D11::mDeviceContext->IASetInputLayout(layout->layout());
 }
 
 void Renderer::setPrimitive(PrimitiveType primitive) {
-    mPrimitiveMode = toPrimitiveMode(primitive);
-    Direct3D11::mDeviceContext->IASetPrimitiveTopology(mPrimitiveMode);
+    Direct3D11::mDeviceContext->IASetPrimitiveTopology(toPrimitiveMode(primitive));
 }
 
 ID3D11VertexShader* Renderer::getVertexShader(const char* fileName, const char* funcName) {
@@ -139,8 +137,8 @@ void Renderer::clear() {
     mSounds.clear();
 }
 
-D3D_PRIMITIVE_TOPOLOGY Renderer::toPrimitiveMode(PrimitiveType primitive) {
-    static const D3D_PRIMITIVE_TOPOLOGY primitiveModes[] = {
+D3D11_PRIMITIVE_TOPOLOGY Renderer::toPrimitiveMode(PrimitiveType primitive) {
+    static const D3D11_PRIMITIVE_TOPOLOGY primitiveModes[] = {
         D3D11_PRIMITIVE_TOPOLOGY_POINTLIST, //PRIMITIVE_TYPE_POINTLIST = 0
         D3D11_PRIMITIVE_TOPOLOGY_LINELIST, //PRIMITIVE_TYPE_LINELIST = 1
         D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP, //PRIMITIVE_TYPE_LINESTRIP = 2
@@ -154,6 +152,3 @@ std::unordered_map<const char*, ID3D11VertexShader*> Renderer::mVertexShaders;
 std::unordered_map<const char*, ID3D11PixelShader*> Renderer::mPixelShaders;
 std::unordered_map<std::string, std::shared_ptr<Texture>> Renderer::mTextures;
 std::unordered_map<std::string, std::shared_ptr<SoundInfo>> Renderer::mSounds;
-VertexStreamDesc Renderer::mVertexStream;
-std::shared_ptr<InputElement> Renderer::mInputLayout = nullptr;
-D3D_PRIMITIVE_TOPOLOGY Renderer::mPrimitiveMode;
