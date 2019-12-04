@@ -60,8 +60,8 @@ unsigned Buffer::toTarget(BufferType type) const {
         D3D11_BIND_RENDER_TARGET,
         D3D11_BIND_DEPTH_STENCIL,
         D3D11_BIND_UNORDERED_ACCESS,
-        D3D11_BIND_DECODER,
-        D3D11_BIND_VIDEO_ENCODER
+        //D3D11_BIND_DECODER,
+        //D3D11_BIND_VIDEO_ENCODER
     };
     return targets[static_cast<int>(type)];
 }

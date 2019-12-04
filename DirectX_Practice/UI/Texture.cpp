@@ -52,9 +52,9 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
     stream.buffer = mVertexBuffer;
     stream.offset = 0;
     stream.stride = sizeof(TextureVertex);
-    Renderer::setVertexBuffer(stream);
+    Renderer::setVertexBuffer(&stream);
     //インデックスバッファーをセット
-    Renderer::setIndexBuffer(*mIndexBuffer);
+    Renderer::setIndexBuffer(mIndexBuffer);
     //サンプラーのセット
     Direct3D11::mDeviceContext->PSSetSamplers(0, 1, &mSampleLinear);
 
