@@ -119,7 +119,7 @@ void Renderer::drawNumber(int number, const Vector2& position, bool isRightAlign
         }
     }
 
-    Sprite* sprite = new Sprite("number.png", Vector2(widthOfTexture, 64.f), 0.01f);
+    Sprite* sprite = new Sprite("number.png", 0.01f);
     sprite->setPosition(Vector2(position.x - widthChar * digit, position.y));
 
     // 数字を文字列化し、1文字ずつ取り出す
