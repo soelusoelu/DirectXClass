@@ -9,6 +9,7 @@
 #include "../Utility/Math.h"
 
 PlayerHPSP::PlayerHPSP(PlayerActor* player, EnemyActor* enemy) :
+    UI(),
     mPlayerHP(player->getComponentManager()->getComponent<HitPointComponent>()),
     mPlayerSP(player->getComponentManager()->getComponent<SPComponent>()),
     mEnemyHP(enemy->getComponentManager()->getComponent<HitPointComponent>()),

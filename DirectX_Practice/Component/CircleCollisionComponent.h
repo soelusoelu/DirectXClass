@@ -1,33 +1,21 @@
 #pragma once
 
-#include "Component.h"
+#include "Collider.h"
 #include "../Utility/Collision.h"
-#include "../Utility/Math.h"
-#include <list>
 #include <memory>
 
 class Actor;
 class Sprite;
 
-class CircleCollisionComponent : public Component {
+class CircleCollisionComponent : public Collider {
 public:
-    CircleCollisionComponent(Actor* onwer);
+    CircleCollisionComponent(Actor* owner);
     ~CircleCollisionComponent();
-    virtual void start() override;
-    virtual void update() override;
+    virtual void startCollider() override;
+    virtual void updateCollider() override;
     std::shared_ptr<Circle> getCircle() const;
-    void enabled();
-    void disabled();
-    bool getEnable() const;
-    void addHitCircle(CircleCollisionComponent* hit);
-    std::list<CircleCollisionComponent*> onCollisionEnter();
-    std::list<CircleCollisionComponent*> onCollisionStay();
-    std::list<CircleCollisionComponent*> onCollisionExit();
 
 private:
     std::shared_ptr<Circle> mCircle;
     Sprite* mSprite;
-    bool mEnable;
-    std::list<CircleCollisionComponent*> mPreviousCircles;
-    std::list<CircleCollisionComponent*> mCurrentCircles;
 };

@@ -3,6 +3,7 @@
 #include "../Actor/ComponentManagementOfActor.h"
 #include "../Actor/ActorManager.h"
 #include "../Component/CircleCollisionComponent.h"
+#include "../Component/Collider.h"
 #include "../Utility/Collision.h"
 #include <algorithm>
 
@@ -11,20 +12,22 @@ Physics::~Physics() = default;
 
 void Physics::sweepAndPrune() {
     //mCenter.x - mCenter.mRadiusが小さい順にソート
-    std::sort(mCircles.begin(), mCircles.end(), [](CircleCollisionComponent* a, CircleCollisionComponent* b) {
-        return a->getCircle()->mCenter.x - a->getCircle()->mRadius < b->getCircle()->mCenter.x - b->getCircle()->mRadius;
+    std::sort(mColliders.begin(), mColliders.end(), [](Collider* a, Collider* b) {
+        auto circleA = dynamic_cast<CircleCollisionComponent*>(a);
+        auto circleB = dynamic_cast<CircleCollisionComponent*>(b);
+        return circleA->getCircle()->mCenter.x - circleA->getCircle()->mRadius < circleB->getCircle()->mCenter.x - circleB->getCircle()->mRadius;
     });
 
-    for (size_t i = 0; i < mCircles.size(); i++) {
-        auto a = mCircles[i];
+    for (size_t i = 0; i < mColliders.size(); i++) {
+        auto a = dynamic_cast<CircleCollisionComponent*>(mColliders[i]);
         if (!a->getEnable()) {
             continue;
         }
         auto ac = a->getCircle();
         //mCircles[i]の中心+半径を取得
         float max = ac->mCenter.x + ac->mRadius;
-        for (size_t j = i + 1; j < mCircles.size(); j++) {
-            auto b = mCircles[j];
+        for (size_t j = i + 1; j < mColliders.size(); j++) {
+            auto b = dynamic_cast<CircleCollisionComponent*>(mColliders[j]);
             if (!b->getEnable()) {
                 continue;
             }
@@ -34,28 +37,28 @@ void Physics::sweepAndPrune() {
             if (bc->mCenter.x - bc->mRadius > max) {
                 break;
             } else if (intersect(*ac, *bc)) {
-                a->addHitCircle(b);
-                b->addHitCircle(a);
+                a->addHitCollider(b);
+                b->addHitCollider(a);
             }
         }
     }
 }
 
-void Physics::add(CircleCollisionComponent* circle) {
-    mCircles.emplace_back(circle);
+void Physics::add(Collider* circle) {
+    mColliders.emplace_back(circle);
 }
 
-void Physics::remove(CircleCollisionComponent* circle) {
-    auto itr = std::find(mCircles.begin(), mCircles.end(), circle);
-    if (itr != mCircles.end()) {
-        std::iter_swap(itr, mCircles.end() - 1);
-        mCircles.pop_back();
+void Physics::remove(Collider* circle) {
+    auto itr = std::find(mColliders.begin(), mColliders.end(), circle);
+    if (itr != mColliders.end()) {
+        std::iter_swap(itr, mColliders.end() - 1);
+        mColliders.pop_back();
         return;
     }
 }
 
 void Physics::clear() {
-    mCircles.clear();
+    mColliders.clear();
 }
 
-std::vector<CircleCollisionComponent*> Physics::mCircles;
+std::vector<Collider*> Physics::mColliders;

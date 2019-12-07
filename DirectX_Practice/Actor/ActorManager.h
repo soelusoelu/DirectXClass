@@ -41,7 +41,7 @@ public:
     }
 
 private:
-    void fromPendingToMain();
+    void movePendingToMain();
 
     ActorManager(const ActorManager&) = delete;
     ActorManager& operator=(const ActorManager&) = delete;

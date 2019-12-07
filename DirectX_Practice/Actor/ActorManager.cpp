@@ -15,7 +15,7 @@ void ActorManager::update() {
     }
     mUpdatingActors = false;
 
-    fromPendingToMain();
+    movePendingToMain();
 
     remove();
 }
@@ -62,7 +62,7 @@ std::shared_ptr<PlayerActor> ActorManager::getPlayer() const {
     return p;
 }
 
-void ActorManager::fromPendingToMain() {
+void ActorManager::movePendingToMain() {
     if (mPendingActors.empty()) {
         return;
     }
