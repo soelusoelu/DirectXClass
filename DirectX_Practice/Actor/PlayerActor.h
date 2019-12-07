@@ -4,9 +4,7 @@
 
 class AnimationComponent;
 class CircleCollisionComponent;
-class HitPointComponent;
 class PlayerMoveComponent;
-class SPComponent;
 class SpriteComponent;
 
 class PlayerActor : public Actor {
@@ -18,10 +16,7 @@ public:
 
 private:
     AnimationComponent* mAnimation;
-    CircleCollisionComponent* mCircle;
-    HitPointComponent* mHP;
     PlayerMoveComponent* mPlayerMove;
-    SPComponent* mSP;
     SpriteComponent* mSprite;
 };
 

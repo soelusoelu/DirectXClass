@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include <string>
+#include <memory>
 
 class Actor;
 class Sprite;
@@ -11,8 +11,8 @@ public:
     SpriteComponent(Actor* owner, const char* fileName, float z);
     ~SpriteComponent();
     virtual void update() override;
-    Sprite* getSprite() const;
+    std::shared_ptr<Sprite> getSprite() const;
 
 private:
-    Sprite* mSprite;
+    std::shared_ptr<Sprite> mSprite;
 };

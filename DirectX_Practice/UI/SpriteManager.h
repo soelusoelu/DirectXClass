@@ -12,7 +12,7 @@ public:
     ~SpriteManager();
     virtual void update() override;
     virtual void draw() const override;
-    static void add(Sprite* add);
+    static void add(std::shared_ptr<Sprite> add);
     virtual void remove() override;
     virtual void clear() override;
 

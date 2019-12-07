@@ -166,10 +166,8 @@ void Texture::createTexture(const char* fileName) {
     D3DX11_IMAGE_INFO info;
     D3DX11GetImageInfoFromFileA(fileName, nullptr, &info, nullptr);
 
-    TextureDesc desc;
-    desc.width = info.Width;
-    desc.height = info.Height;
-    mDesc = desc;
+    mDesc.width = info.Width;
+    mDesc.height = info.Height;
 
     if (FAILED(D3DX11CreateShaderResourceViewFromFileA(Direct3D11::mDevice, fileName, &toImageLoadInfo(mDesc), nullptr, &mTexture, nullptr))) {
         MessageBox(0, L"テクスチャ作成失敗", NULL, MB_OK);

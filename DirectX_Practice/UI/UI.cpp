@@ -1,5 +1,6 @@
 ﻿#include "UI.h"
 #include "Sprite.h"
+#include "SpriteManager.h"
 
 UI::UI() :
     mState(UIState::Active) {
@@ -15,8 +16,9 @@ void UI::close() {
     mState = UIState::Closing;
 }
 
-void UI::addSprite(Sprite* add) {
+void UI::addSprite(std::shared_ptr<Sprite> add) {
     mSprites.emplace_back(add);
+    SpriteManager::add(add);
 }
 
 UIState UI::getState() const {

@@ -6,7 +6,7 @@
 #include "../System/TextureDesc.h"
 #include <cassert>
 
-Sprite::Sprite(const char* fileName, float z) :
+Sprite::Sprite(const char* fileName, float z, bool updateMyself) :
     mDefaultSize(Vector2::zero),
     mCurrentSize(Vector2::zero),
     mPosition(Vector2::zero, z),
@@ -20,6 +20,7 @@ Sprite::Sprite(const char* fileName, float z) :
     mTexture(Renderer::getTexture(fileName)),
     mShader(std::make_shared<Shader>()),
     mFileName(fileName),
+    mUpdateMyself(updateMyself),
     mWorldUpdateFlag(true) {
 
     auto desc = mTexture->desc();
@@ -30,12 +31,12 @@ Sprite::Sprite(const char* fileName, float z) :
     mShader->createPixelShader("Texture.hlsl", "PS");
     mTexture->createVertexLayout(mShader->getCompiledShader());
 
-    SpriteManager::add(this);
+    //SpriteManager::add(this);
 }
 
 Sprite::~Sprite() = default;
 
-Sprite::Sprite(const Sprite & sprite) :
+Sprite::Sprite(const Sprite& sprite) :
     mDefaultSize(sprite.mDefaultSize),
     mCurrentSize(sprite.mCurrentSize),
     mPosition(sprite.mPosition),
@@ -49,6 +50,7 @@ Sprite::Sprite(const Sprite & sprite) :
     mTexture(sprite.mTexture),
     mShader(sprite.mShader),
     mFileName(sprite.mFileName),
+    mUpdateMyself(sprite.mUpdateMyself),
     mWorldUpdateFlag(true) {
 }
 
@@ -56,8 +58,8 @@ void Sprite::update() {
     updateWorld();
 }
 
-Sprite* Sprite::draw() const {
-    auto s = new Sprite(*this);
+std::shared_ptr<Sprite> Sprite::draw() const {
+    auto s = std::make_shared<Sprite>(*this);
     SpriteManager::add(s);
     s->mState = SpriteState::Once;
     return s;
@@ -93,7 +95,7 @@ void Sprite::setRotation(float angle) {
     angle *= 0.5f * Math::deg2Rad;
     float sinAngle = Math::sin(angle);
 
-    mRotation.z *= sinAngle;
+    mRotation.z = sinAngle;
     mRotation.w = Math::cos(angle);
 
     mWorldUpdateFlag = true;
@@ -117,8 +119,6 @@ void Sprite::rotate(float angle) {
 }
 
 void Sprite::setScale(const Vector2 & scale, bool isCenterShift) {
-    bool isBigger = mScale.x < scale.x;
-
     if (isCenterShift) {
         centerShift(scale);
     }
@@ -157,19 +157,16 @@ void Sprite::setColor(const Vector3 & color) {
     mColor.x = color.x;
     mColor.y = color.y;
     mColor.z = color.z;
-    mWorldUpdateFlag = true;
 }
 
 void Sprite::setColor(float r, float g, float b) {
     mColor.x = r;
     mColor.y = g;
     mColor.z = b;
-    mWorldUpdateFlag = true;
 }
 
 void Sprite::setAlpha(float alpha) {
     mColor.w = alpha;
-    mWorldUpdateFlag = true;
 }
 
 Vector4 Sprite::getColor() const {
@@ -216,6 +213,10 @@ Vector2 Sprite::getTextureSize() const {
     return mDefaultSize;
 }
 
+Vector2 Sprite::getCurrentTextureSize() const {
+    return mCurrentSize;
+}
+
 Vector2 Sprite::getScreenTextureSize() const {
     return mCurrentSize * mScale;
 }
@@ -230,6 +231,10 @@ void Sprite::destroy(std::shared_ptr<Sprite> sprite) {
 
 SpriteState Sprite::getState() const {
     return mState;
+}
+
+void Sprite::setWorld(const Matrix4& world) {
+    mWorld = world;
 }
 
 Matrix4 Sprite::getWorld() const {
@@ -272,12 +277,11 @@ void Sprite::onceToDead() {
 
 void Sprite::updateWorld() {
     //ワールド行列に変更が生じたら
-    if (!mWorldUpdateFlag) {
+    if (!mWorldUpdateFlag || !mUpdateMyself) {
         return;
     }
     mWorldUpdateFlag = false;
 
-    //mWorld = Matrix4::createScale(mCurrentSize.x * mScale.x, mCurrentSize.y * mScale.y, 1.f);
     mWorld = Matrix4::createScale(Vector3(getScreenTextureSize(), 1.f));
     mWorld *= Matrix4::createTranslation(Vector3(-mPivot, 0.f));
     mWorld *= Matrix4::createFromQuaternion(mRotation);

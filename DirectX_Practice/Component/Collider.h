@@ -11,6 +11,8 @@ public:
     virtual void startCollider() = 0;
     virtual void update() override;
     virtual void updateCollider() = 0;
+    virtual void onUpdateWorldTransform() override;
+    virtual void onUpdateWorldTransformCollider() = 0;
     void enabled();
     void disabled();
     bool getEnable() const;

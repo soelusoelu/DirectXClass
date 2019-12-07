@@ -24,6 +24,10 @@ void Collider::update() {
     mCurrentCollider.clear();
 }
 
+void Collider::onUpdateWorldTransform() {
+    onUpdateWorldTransformCollider();
+}
+
 void Collider::enabled() {
     mEnable = true;
 }

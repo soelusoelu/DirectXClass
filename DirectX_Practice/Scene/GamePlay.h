@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "SceneBase.h"
-#include "../Device/Sound.h"
 #include "../UI/Sprite.h"
 #include <memory>
 
@@ -26,13 +25,6 @@ public:
     void setState(GameState state);
 
 private:
-    bool isEndGame();
-
-private:
     std::shared_ptr<ActorManager> mActorManager;
     GameState mState;
-    Sprite* mSlowBlack;
-    Sprite* mEnd;
-    Sprite* mFade;
-    std::shared_ptr<SoundInfo> mSound;
 };

@@ -9,6 +9,7 @@ enum class ActorState {
 };
 
 class ComponentManagementOfActor;
+class Transform2D;
 class Time;
 
 class Actor {
@@ -23,7 +24,7 @@ public:
     //描画
     virtual void drawActor() const = 0;
 
-    //位置、角度、スケールに変更があった際に更新
+    //ワールド行列の更新
     void computeWorldTransform();
 
     //アクター削除
@@ -34,6 +35,7 @@ public:
 
     //ゲッター、セッター
     std::shared_ptr<ComponentManagementOfActor> getComponentManager() const;
+    std::shared_ptr<Transform2D> getTransform() const;
     ActorState getState() const;
     const char* getTag() const;
 
@@ -42,6 +44,7 @@ private:
 
 private:
     std::shared_ptr<ComponentManagementOfActor> mComponentManager;
+    std::shared_ptr<Transform2D> mTransform;
     std::unique_ptr<Time> mDestroyTimer;
     ActorState mState;
     const char* mTag;

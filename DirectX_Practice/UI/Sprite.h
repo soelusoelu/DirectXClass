@@ -14,12 +14,12 @@ class Texture;
 
 class Sprite {
 public:
-    Sprite(const char* fileName, float z);
+    Sprite(const char* fileName, float z, bool updateMyself = true);
     ~Sprite();
     Sprite(const Sprite& sprite);
     //SpriteManagerにて毎フレーム実行
     void update();
-    Sprite* draw() const;
+    std::shared_ptr<Sprite> draw() const;
     //ピクセル単位で位置指定
     void setPosition(const Vector2& pos);
     //描画優先順位(0～1、0が手前)
@@ -47,15 +47,18 @@ public:
     //回転ピボット位置
     void setPivot(const Vector2& pivot);
     Vector2 getPivot() const;
-    //テクスチャサイズの取得(getterのみ)
+    //テクスチャサイズの取得
     Vector2 getTextureSize() const;
+    //テクスチャの現在のサイズを取得
+    Vector2 getCurrentTextureSize() const;
     //スクリーン表示上のサイズの取得
     Vector2 getScreenTextureSize() const;
     //状態管理
     static void destroy(Sprite* sprite);
     static void destroy(std::shared_ptr<Sprite> sprite);
     SpriteState getState() const;
-    //World行列の取得
+    //World行列
+    void setWorld(const Matrix4& world);
     Matrix4 getWorld() const;
     //テクスチャの取得
     void setTexture(const char* fileName);
@@ -89,6 +92,7 @@ private:
     std::shared_ptr<Texture> mTexture;
     std::shared_ptr<Shader> mShader;
     const char* mFileName;
+    bool mUpdateMyself;
     bool mWorldUpdateFlag;
 };
 

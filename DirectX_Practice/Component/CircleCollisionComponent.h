@@ -13,9 +13,10 @@ public:
     ~CircleCollisionComponent();
     virtual void startCollider() override;
     virtual void updateCollider() override;
+    virtual void onUpdateWorldTransformCollider() override;
     std::shared_ptr<Circle> getCircle() const;
 
 private:
     std::shared_ptr<Circle> mCircle;
-    Sprite* mSprite;
+    std::shared_ptr<Sprite> mSprite;
 };

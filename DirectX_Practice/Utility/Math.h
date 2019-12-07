@@ -135,6 +135,10 @@ public:
         return Vector2(-x, -y);
     }
 
+    friend Vector2 operator-(const Vector2& vec) {
+        return Vector2(-vec.x, -vec.y);
+    }
+
     // Vector addition (a + b)
     friend Vector2 operator+(const Vector2& a, const Vector2& b) {
         return Vector2(a.x + b.x, a.y + b.y);

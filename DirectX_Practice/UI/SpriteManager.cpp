@@ -5,7 +5,9 @@
 
 SpriteManager::SpriteManager() = default;
 
-SpriteManager::~SpriteManager() = default;
+SpriteManager::~SpriteManager() {
+    clear();
+}
 
 void SpriteManager::update() {
     for (auto&& sprite : mSprites) {
@@ -19,16 +21,15 @@ void SpriteManager::draw() const {
     Texture::drawAll(&mSprites);
 }
 
-void SpriteManager::add(Sprite* add) {
-    std::shared_ptr<Sprite> s(add);
-    float z = s->getDepth();
+void SpriteManager::add(std::shared_ptr<Sprite> add) {
+    float z = add->getDepth();
     auto itr = mSprites.begin();
     for (; itr != mSprites.end(); ++itr) {
         if (z > (*itr)->getDepth()) {
             break;
         }
     }
-    mSprites.insert(itr, s);
+    mSprites.insert(itr, add);
 }
 
 void SpriteManager::remove() {

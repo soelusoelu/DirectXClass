@@ -101,78 +101,22 @@
     <ClCompile Include="Component\CircleCollisionComponent.cpp">
       <Filter>Component</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\EnemyActor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\EnemyMoveComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\EnemyBullet1.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\EnemyBullet1Component.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="Device\Physics.cpp">
       <Filter>Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\EnemyBullet2.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\EnemyBullet2Component.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\HitPointComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\DamageComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\PlayerAttack.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\PlayerAttackComponent.cpp">
-      <Filter>Component</Filter>
     </ClCompile>
     <ClCompile Include="Device\Time.cpp">
       <Filter>Device</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\AvoidancePlayerActor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\AvoidanceComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\SPComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PlayerHPSP.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\SpecialAttack.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Component\SpecialAttackComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="Component\AnimationComponent.cpp">
       <Filter>Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\EnemyBullet2Manager.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\EnemyBullet1Manager.cpp">
-      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="Scene\Sousa.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\TakeDamageEffectActor.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="System\Buffer.cpp" />
     <ClCompile Include="System\InputElement.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
+    <ClCompile Include="Actor\Transform2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\Input.h">
@@ -278,74 +222,17 @@
     <ClInclude Include="Component\CircleCollisionComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\EnemyActor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\EnemyMoveComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\EnemyBullet1.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\EnemyBullet1Component.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Device\Physics.h">
       <Filter>Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\EnemyBullet2.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\EnemyBullet2Component.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\HitPointComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\DamageComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\PlayerAttack.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\PlayerAttackComponent.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="Device\Time.h">
       <Filter>Device</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\AvoidancePlayerActor.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\AvoidanceComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\SPComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\PlayerHPSP.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\SpecialAttack.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Component\SpecialAttackComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="Component\AnimationComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\EnemyBullet2Manager.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\EnemyBullet1Manager.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\Sousa.h">
       <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\TakeDamageEffectActor.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="System\BufferDesc.h" />
     <ClInclude Include="System\Buffer.h" />
@@ -355,6 +242,7 @@
     <ClInclude Include="System\SubResourceDesc.h" />
     <ClInclude Include="System\TextureDesc.h" />
     <ClInclude Include="Component\Collider.h" />
+    <ClInclude Include="Actor\Transform2D.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Utility">

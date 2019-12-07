@@ -21,7 +21,7 @@ private:
 
 private:
     std::unique_ptr<Time> mChangeTimer;
-    Sprite* mSprite;
+    std::shared_ptr<Sprite> mSprite;
     Vector2 mSize;
     int mWidthCount;
     int mHeightCount;

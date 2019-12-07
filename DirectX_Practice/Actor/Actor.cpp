@@ -1,10 +1,14 @@
 ﻿#include "Actor.h"
 #include "ActorManager.h"
 #include "ComponentManagementOfActor.h"
+#include "Transform2D.h"
+#include "../Component/SpriteComponent.h"
+#include "../UI/Sprite.h"
 #include "../Device/Time.h"
 
 Actor::Actor(const char* tag) :
     mComponentManager(std::make_shared<ComponentManagementOfActor>()),
+    mTransform(std::make_shared<Transform2D>()),
     mDestroyTimer(nullptr),
     mState(ActorState::Active),
     mTag(tag) {
@@ -28,7 +32,15 @@ void Actor::update() {
 }
 
 void Actor::computeWorldTransform() {
-    //mComponentManager->executeOnUpdateWorldTransform();
+    auto sc = mComponentManager->getComponent<SpriteComponent>();
+    if (!sc) {
+        return;
+    }
+    auto s = sc->getSprite();
+    if (mTransform->computeWorldTransform(s->getCurrentTextureSize(), s->getPivot(), s->getDepth())) {
+        s->setWorld(mTransform->getWorldTransform());
+        mComponentManager->executeOnUpdateWorldTransform();
+    }
 }
 
 void Actor::destroy(Actor * actor) {
@@ -39,7 +51,7 @@ void Actor::destroy(std::shared_ptr<Actor> actor) {
     actor->mState = ActorState::Dead;
 }
 
-void Actor::destroy(Actor* actor, float sec) {
+void Actor::destroy(Actor * actor, float sec) {
     if (actor->mDestroyTimer) {
         return;
     }
@@ -55,6 +67,10 @@ void Actor::destroy(std::shared_ptr<Actor> actor, float sec) {
 
 std::shared_ptr<ComponentManagementOfActor> Actor::getComponentManager() const {
     return mComponentManager;
+}
+
+std::shared_ptr<Transform2D> Actor::getTransform() const {
+    return mTransform;
 }
 
 ActorState Actor::getState() const {

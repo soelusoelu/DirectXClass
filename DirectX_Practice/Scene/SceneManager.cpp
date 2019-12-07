@@ -4,7 +4,7 @@
 #include "Title.h"
 
 SceneManager::SceneManager() :
-    mCurrentScene(std::make_shared<Title>()) {
+    mCurrentScene(std::make_shared<GamePlay>()) {
 }
 
 SceneManager::~SceneManager() = default;

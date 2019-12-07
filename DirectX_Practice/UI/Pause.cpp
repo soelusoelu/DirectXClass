@@ -11,9 +11,9 @@ Pause::Pause(std::shared_ptr<GamePlay> game) :
     if (auto g = mGame.lock()) {
         g->setState(GameState::Paused);
     }
-    addSprite(new Sprite("kuppa.png", 0.6f));
-    addSprite(new Sprite("cute_cat_illust_3737.png", 0.1f));
-    addSprite(new Sprite("menuBG.png", 0.9f));
+    addSprite(std::make_shared<Sprite>("kuppa.png", 0.6f));
+    addSprite(std::make_shared<Sprite>("cute_cat_illust_3737.png", 0.1f));
+    addSprite(std::make_shared<Sprite>("menuBG.png", 0.9f));
 }
 
 Pause::~Pause() {
@@ -23,7 +23,7 @@ Pause::~Pause() {
 }
 
 void Pause::update() {
-    if (Input::getKeyDown(KeyCode::Alpha1)) {
+    if (Input::getKeyDown(KeyCode::Alpha2)) {
         close();
     }
 }

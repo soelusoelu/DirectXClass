@@ -1,10 +1,12 @@
 #include "SpriteComponent.h"
 #include "../Actor/Actor.h"
 #include "../UI/Sprite.h"
+#include "../UI/SpriteManager.h"
 
 SpriteComponent::SpriteComponent(Actor* owner, const char* fileName, float z) :
     Component(owner),
-    mSprite(new Sprite(fileName, z)) {
+    mSprite(std::make_shared<Sprite>(fileName, z, false)) {
+    SpriteManager::add(mSprite);
 }
 
 SpriteComponent::~SpriteComponent() {
@@ -14,6 +16,6 @@ SpriteComponent::~SpriteComponent() {
 void SpriteComponent::update() {
 }
 
-Sprite* SpriteComponent::getSprite() const {
+std::shared_ptr<Sprite> SpriteComponent::getSprite() const {
     return mSprite;
 }
