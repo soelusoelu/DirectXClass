@@ -10,9 +10,7 @@ enum class Direction {
 
 class Actor;
 class AnimationComponent;
-class CircleCollisionComponent;
-class Sprite;
-class Time;
+class SpriteComponent;
 
 class PlayerMoveComponent : public Component {
 public:
@@ -27,7 +25,7 @@ private:
     void posClamp();
 
 private:
-    std::shared_ptr<Sprite> mSprite;
+    std::shared_ptr<SpriteComponent> mSprite;
     std::shared_ptr<AnimationComponent> mAnim;
     const float MOVE_SPEED;
     const float FALL_SPEED;

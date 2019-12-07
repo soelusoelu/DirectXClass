@@ -3,7 +3,6 @@
 #include "../Actor/Actor.h"
 #include "../Actor/ComponentManagementOfActor.h"
 #include "../Actor/Transform2D.h"
-#include "../UI/Sprite.h"
 
 CircleCollisionComponent::CircleCollisionComponent(Actor* onwer) :
     Collider(onwer),
@@ -14,7 +13,7 @@ CircleCollisionComponent::CircleCollisionComponent(Actor* onwer) :
 CircleCollisionComponent::~CircleCollisionComponent() = default;
 
 void CircleCollisionComponent::startCollider() {
-    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>()->getSprite();
+    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>();
 
     mCircle = std::make_shared<Circle>(
         mOwner->getTransform()->getPosition() + mSprite->getPivot(),

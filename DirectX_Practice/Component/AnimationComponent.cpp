@@ -3,7 +3,6 @@
 #include "../Actor/ComponentManagementOfActor.h"
 #include "../Component/SpriteComponent.h"
 #include "../Device/Time.h"
-#include "../UI/Sprite.h"
 
 AnimationComponent::AnimationComponent(Actor* owner, float changeTimerSec, const Vector2& oneSpriteSize) :
     Component(owner),
@@ -20,7 +19,7 @@ AnimationComponent::AnimationComponent(Actor* owner, float changeTimerSec, const
 AnimationComponent::~AnimationComponent() = default;
 
 void AnimationComponent::start() {
-    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>()->getSprite();
+    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>();
     mWidthCount = mSprite->getTextureSize().x / (mSize.x - 0.5f);
     mHeightCount = mSprite->getTextureSize().y / (mSize.y - 0.5f);
 }

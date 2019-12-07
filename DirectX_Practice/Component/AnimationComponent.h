@@ -5,7 +5,7 @@
 #include <memory>
 
 class Actor;
-class Sprite;
+class SpriteComponent;
 class Time;
 
 class AnimationComponent : public Component {
@@ -21,7 +21,7 @@ private:
 
 private:
     std::unique_ptr<Time> mChangeTimer;
-    std::shared_ptr<Sprite> mSprite;
+    std::shared_ptr<SpriteComponent> mSprite;
     Vector2 mSize;
     int mWidthCount;
     int mHeightCount;

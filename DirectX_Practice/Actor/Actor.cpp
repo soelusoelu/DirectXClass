@@ -3,7 +3,6 @@
 #include "ComponentManagementOfActor.h"
 #include "Transform2D.h"
 #include "../Component/SpriteComponent.h"
-#include "../UI/Sprite.h"
 #include "../Device/Time.h"
 
 Actor::Actor(const char* tag) :
@@ -32,11 +31,10 @@ void Actor::update() {
 }
 
 void Actor::computeWorldTransform() {
-    auto sc = mComponentManager->getComponent<SpriteComponent>();
-    if (!sc) {
+    auto s = mComponentManager->getComponent<SpriteComponent>();
+    if (!s) {
         return;
     }
-    auto s = sc->getSprite();
     if (mTransform->computeWorldTransform(s->getCurrentTextureSize(), s->getPivot(), s->getDepth())) {
         s->setWorld(mTransform->getWorldTransform());
         mComponentManager->executeOnUpdateWorldTransform();

@@ -5,7 +5,6 @@
 #include "../Component/AnimationComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../System/Game.h"
-#include "../UI/Sprite.h"
 #include "../Utility/Input.h"
 
 PlayerMoveComponent::PlayerMoveComponent(Actor* owner, int updateOrder) :
@@ -19,11 +18,12 @@ PlayerMoveComponent::PlayerMoveComponent(Actor* owner, int updateOrder) :
 PlayerMoveComponent::~PlayerMoveComponent() = default;
 
 void PlayerMoveComponent::start() {
-    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>()->getSprite();
+    mSprite = mOwner->getComponentManager()->getComponent<SpriteComponent>();
     mSprite->setUV(0.f, 0.f, 0.25f, 0.5f);
 
-    mOwner->getTransform()->setPosition(Vector2(Game::WINDOW_WIDTH / 2.f, Game::WINDOW_HEIGHT - (mSprite->getTextureSize().y * mSprite->getScale().y)));
     mOwner->getTransform()->setScale(0.75f);
+    auto s = mSprite->getScreenTextureSize().y;
+    mOwner->getTransform()->setPosition(Vector2(Game::WINDOW_WIDTH / 2.f, Game::WINDOW_HEIGHT - mSprite->getScreenTextureSize().y));
 
     mAnim = mOwner->getComponentManager()->getComponent<AnimationComponent>();
 }
@@ -52,7 +52,7 @@ void PlayerMoveComponent::fall() {
 
 void PlayerMoveComponent::posClamp() {
     auto pos = mOwner->getTransform()->getPosition();
-    auto size = mSprite->getScreenTextureSize() * mOwner->getTransform()->getScale();
+    auto size = mSprite->getScreenTextureSize();
     pos.x = Math::clamp<float>(pos.x, 0.f, Game::WINDOW_WIDTH - size.x);
     pos.y = Math::clamp<float>(pos.y, 0.f, Game::WINDOW_HEIGHT - size.y);
 
