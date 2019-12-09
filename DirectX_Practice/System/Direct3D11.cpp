@@ -175,5 +175,3 @@ void Direct3D11::createBlendState() {
 
 ID3D11Device* Direct3D11::mDevice = nullptr;
 ID3D11DeviceContext* Direct3D11::mDeviceContext = nullptr;
-ID3D11RasterizerState* Direct3D11::mRasterizerState = nullptr;
-ID3D11RasterizerState* Direct3D11::mRasterizerStateBack = nullptr;

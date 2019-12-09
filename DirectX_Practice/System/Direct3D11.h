@@ -14,8 +14,6 @@ public:
 
     static ID3D11Device* mDevice;
     static ID3D11DeviceContext* mDeviceContext;
-    static ID3D11RasterizerState* mRasterizerState; //前面用
-    static ID3D11RasterizerState* mRasterizerStateBack; //背面用
 
 private:
     void createSwapChain(const HWND& hWnd);
@@ -33,6 +31,8 @@ private:
     ID3D11DepthStencilView* mDepthStencilView;
     ID3D11Texture2D* mDepthStencil;
     ID3D11DepthStencilState* mDepthStencilState;
+    ID3D11RasterizerState* mRasterizerState; //前面用
+    ID3D11RasterizerState* mRasterizerStateBack; //背面用
     ID3D11BlendState* mBlendState;
 };
 
