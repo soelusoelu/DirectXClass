@@ -63,7 +63,7 @@ HRESULT Game::init() {
         MSG(L"Direct3Dの初期化失敗");
         return E_FAIL;
     }
-    MFAIL(mD3D11->init(mhWnd), L"Direct3D初期化失敗");
+    MFALSE(mD3D11->init(mhWnd), L"Direct3D初期化失敗");
 
     MFAIL(Input::init(mhWnd), L"DirectInput初期化失敗");
 

@@ -6,7 +6,7 @@ class Direct3D11 {
 public:
     Direct3D11();
     ~Direct3D11();
-    HRESULT init(const HWND& hWnd);
+    bool init(const HWND& hWnd);
     void clear();
     HRESULT present();
     ID3D11Device* device() const;
@@ -18,7 +18,16 @@ public:
     static ID3D11RasterizerState* mRasterizerStateBack; //”w–Ê—p
 
 private:
-    HWND mhWnd;
+    void createSwapChain(const HWND& hWnd);
+    void createRenderTargetView();
+    void createDepthStencilView();
+    void setRenderTargets();
+    void createDepthStencilState();
+    void setViewports();
+    void createRasterizerState();
+    void createBlendState();
+
+private:
     IDXGISwapChain* mSwapChain;
     ID3D11RenderTargetView* mRenderTargetView;
     ID3D11DepthStencilView* mDepthStencilView;
