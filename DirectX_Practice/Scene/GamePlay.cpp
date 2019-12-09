@@ -14,7 +14,7 @@
 GamePlay::GamePlay() :
     SceneBase(),
     mActorManager(std::make_shared<ActorManager>()),
-    mState(GameState::Play) {
+    mState(GameState::PLAY) {
     new PlayerActor();
 }
 
@@ -25,7 +25,7 @@ GamePlay::~GamePlay() {
 }
 
 void GamePlay::updateScene() {
-    if (mState == GameState::Play) {
+    if (mState == GameState::PLAY) {
         mActorManager->update();
 
         Physics::sweepAndPrune();

@@ -37,7 +37,7 @@ void Actor::computeWorldTransform() {
     }
     if (mTransform->computeWorldTransform(s->getCurrentTextureSize(), s->getPivot(), s->getDepth())) {
         s->setWorld(mTransform->getWorldTransform());
-        mComponentManager->executeOnUpdateWorldTransform();
+        mComponentManager->onUpdateWorldTransform();
     }
 }
 

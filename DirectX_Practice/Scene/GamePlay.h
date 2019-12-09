@@ -5,11 +5,11 @@
 #include <memory>
 
 enum class GameState {
-    Play,
-    Paused,
-    Fade,
-    Result,
-    Quit
+    PLAY,
+    PAUSED,
+    FADE,
+    RESULT,
+    QUIT
 };
 
 class ActorManager;

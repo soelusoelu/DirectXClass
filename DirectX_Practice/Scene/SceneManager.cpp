@@ -23,11 +23,11 @@ void SceneManager::draw() const {
 
 void SceneManager::change(Scene next) {
     mCurrentScene.reset();
-    if (next == Scene::TITLE) {
+    if (next == Scene::SCENE_TITLE) {
         mCurrentScene = std::make_shared<Title>();
-    } else if (next == Scene::SOUSA) {
+    } else if (next == Scene::SCENE_SOUSA) {
         mCurrentScene = std::make_shared<Sousa>();
-    } else if (next == Scene::GAME_PLAY) {
+    } else if (next == Scene::SCENE_GAME_PLAY) {
         mCurrentScene = std::make_shared<GamePlay>();
     }
 }

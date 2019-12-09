@@ -9,7 +9,7 @@ Pause::Pause(std::shared_ptr<GamePlay> game) :
     UI(),
     mGame(game) {
     if (auto g = mGame.lock()) {
-        g->setState(GameState::Paused);
+        g->setState(GameState::PAUSED);
     }
     addSprite(std::make_shared<Sprite>("kuppa.png", 0.6f));
     addSprite(std::make_shared<Sprite>("cute_cat_illust_3737.png", 0.1f));
@@ -18,7 +18,7 @@ Pause::Pause(std::shared_ptr<GamePlay> game) :
 
 Pause::~Pause() {
     if (auto g = mGame.lock()) {
-        g->setState(GameState::Play);
+        g->setState(GameState::PLAY);
     }
 }
 

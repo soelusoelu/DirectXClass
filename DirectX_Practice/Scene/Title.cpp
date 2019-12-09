@@ -18,7 +18,7 @@ Title::~Title() {
 
 void Title::updateScene() {
     if (Input::getKeyDown(KeyCode::Space)) {
-        next(Scene::SOUSA);
+        next(Scene::SCENE_SOUSA);
     }
 }
 

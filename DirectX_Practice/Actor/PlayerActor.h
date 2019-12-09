@@ -3,7 +3,6 @@
 #include "Actor.h"
 
 class AnimationComponent;
-class CircleCollisionComponent;
 class PlayerMoveComponent;
 class SpriteComponent;
 

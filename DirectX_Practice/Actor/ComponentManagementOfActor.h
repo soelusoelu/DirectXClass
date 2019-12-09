@@ -17,7 +17,7 @@ public:
     void addComponent(Component* component);
 
     //所有するすべてのコンポーネントのonUpdateWorldTransformを実行
-    void executeOnUpdateWorldTransform();
+    void onUpdateWorldTransform();
 
     //コンポーネントの取得
     template<typename T>

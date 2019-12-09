@@ -11,7 +11,7 @@ Sousa::~Sousa() = default;
 
 void Sousa::updateScene() {
     if (Input::getKeyDown(KeyCode::Space)) {
-        next(Scene::GAME_PLAY);
+        next(Scene::SCENE_GAME_PLAY);
     }
 }
 

@@ -34,7 +34,7 @@ void ComponentManagementOfActor::addComponent(Component* component) {
     mStartComponents.emplace_back(component);
 }
 
-void ComponentManagementOfActor::executeOnUpdateWorldTransform() {
+void ComponentManagementOfActor::onUpdateWorldTransform() {
     for (auto&& comp : mComponents) {
         comp->onUpdateWorldTransform();
     }

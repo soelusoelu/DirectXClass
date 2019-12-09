@@ -3,9 +3,9 @@
 #include <memory>
 
 enum class Scene {
-    TITLE,
-    SOUSA,
-    GAME_PLAY,
+    SCENE_TITLE,
+    SCENE_SOUSA,
+    SCENE_GAME_PLAY,
 
     NONE
 };
