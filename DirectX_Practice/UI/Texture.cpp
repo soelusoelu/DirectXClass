@@ -60,7 +60,7 @@ void Texture::drawAll(std::list<std::shared_ptr<Sprite>>* sprites) {
 
     for (auto itr = sprites->begin(); itr != sprites->end(); ++itr) {
         auto sprite = (*itr);
-        if (sprite->getState() == SpriteState::Dead) {
+        if (sprite->getState() == SpriteState::DEAD) {
             continue;
         }
         sprite->onceToDead();

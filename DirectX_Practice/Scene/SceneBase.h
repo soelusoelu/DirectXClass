@@ -3,11 +3,11 @@
 #include <memory>
 
 enum class Scene {
-    Title,
-    Sousa,
-    GamePlay,
+    TITLE,
+    SOUSA,
+    GAME_PLAY,
 
-    None
+    NONE
 };
 
 class UIManager;

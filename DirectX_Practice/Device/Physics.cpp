@@ -15,7 +15,7 @@ void Physics::sweepAndPrune() {
     std::sort(mColliders.begin(), mColliders.end(), [](Collider* a, Collider* b) {
         auto circleA = dynamic_cast<CircleCollisionComponent*>(a);
         auto circleB = dynamic_cast<CircleCollisionComponent*>(b);
-        return circleA->getCircle()->mCenter.x - circleA->getCircle()->mRadius < circleB->getCircle()->mCenter.x - circleB->getCircle()->mRadius;
+        return circleA->getCircle()->center.x - circleA->getCircle()->radius < circleB->getCircle()->center.x - circleB->getCircle()->radius;
     });
 
     for (size_t i = 0; i < mColliders.size(); i++) {
@@ -25,7 +25,7 @@ void Physics::sweepAndPrune() {
         }
         auto ac = a->getCircle();
         //mCircles[i]の中心+半径を取得
-        float max = ac->mCenter.x + ac->mRadius;
+        float max = ac->center.x + ac->radius;
         for (size_t j = i + 1; j < mColliders.size(); j++) {
             auto b = dynamic_cast<CircleCollisionComponent*>(mColliders[j]);
             if (!b->getEnable()) {
@@ -34,7 +34,7 @@ void Physics::sweepAndPrune() {
             auto bc = b->getCircle();
             //もしmCircles[j]の中心-半径が、mCircles[i]の中心+半径を超えていたら、
             //mCircles[i]と交差する可能性があるボックスは存在しない
-            if (bc->mCenter.x - bc->mRadius > max) {
+            if (bc->center.x - bc->radius > max) {
                 break;
             } else if (intersect(*ac, *bc)) {
                 a->addHitCollider(b);

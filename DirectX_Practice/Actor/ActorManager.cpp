@@ -37,7 +37,7 @@ void ActorManager::add(Actor * add) {
 void ActorManager::remove() {
     auto itr = mActors.begin();
     while (itr != mActors.end()) {
-        if ((*itr)->getState() == ActorState::Dead) {
+        if ((*itr)->getState() == ActorState::DEAD) {
             itr = mActors.erase(itr);
         } else {
             ++itr;

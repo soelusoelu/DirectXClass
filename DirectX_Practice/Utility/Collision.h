@@ -11,8 +11,8 @@ struct Ray {
     //2本の線分から最短距離の2乗を取得
     static float minDistanceSquare(const Ray& s1, const Ray& s2);
 
-    Vector3 mStart;
-    Vector3 mEnd;
+    Vector3 start;
+    Vector3 end;
 };
 
 struct Circle {
@@ -20,8 +20,8 @@ struct Circle {
     Circle(const Vector2& center, float radius);
     void set(const Vector2& center, float radius);
 
-    Vector2 mCenter;
-    float mRadius;
+    Vector2 center;
+    float radius;
 };
 
 struct Sphere {
@@ -30,16 +30,16 @@ struct Sphere {
     void set(const Vector3& center, float radius);
     bool contains(const Vector3& point) const;
 
-    Vector3 mCenter;
-    float mRadius;
+    Vector3 center;
+    float radius;
 };
 
 //oriented bounding box つまり回転する直方体
 //AABBよりはるかに計算コストが高い
 struct OBB {
-    Vector3 mCenter;
-    Quaternion mRotation;
-    Vector3 mExtents;
+    Vector3 center;
+    Quaternion rotation;
+    Vector3 extents;
 };
 
 //交差判定

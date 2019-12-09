@@ -4,8 +4,8 @@
 #include <memory>
 
 enum class UIState {
-    Active,
-    Closing
+    ACTIVE,
+    CLOSING
 };
 
 class Sprite;

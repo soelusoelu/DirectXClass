@@ -16,7 +16,7 @@ Sprite::Sprite(const char* fileName, float z, bool updateMyself) :
     mUV(0.f, 0.f, 1.f, 1.f),
     mPivot(mCurrentSize / 2.f),
     mWorld(Matrix4::identity),
-    mState(SpriteState::Active),
+    mState(SpriteState::ACTIVE),
     mTexture(Renderer::getTexture(fileName)),
     mShader(std::make_shared<Shader>()),
     mFileName(fileName),
@@ -46,7 +46,7 @@ Sprite::Sprite(const Sprite& sprite) :
     mUV(sprite.mUV),
     mPivot(sprite.mPivot),
     mWorld(sprite.mWorld),
-    mState(SpriteState::Active),
+    mState(SpriteState::ACTIVE),
     mTexture(sprite.mTexture),
     mShader(sprite.mShader),
     mFileName(sprite.mFileName),
@@ -61,7 +61,7 @@ void Sprite::update() {
 std::shared_ptr<Sprite> Sprite::draw() const {
     auto s = std::make_shared<Sprite>(*this);
     SpriteManager::add(s);
-    s->mState = SpriteState::Once;
+    s->mState = SpriteState::ONCE;
     return s;
 }
 
@@ -222,11 +222,11 @@ Vector2 Sprite::getScreenTextureSize() const {
 }
 
 void Sprite::destroy(Sprite * sprite) {
-    sprite->mState = SpriteState::Dead;
+    sprite->mState = SpriteState::DEAD;
 }
 
 void Sprite::destroy(std::shared_ptr<Sprite> sprite) {
-    sprite->mState = SpriteState::Dead;
+    sprite->mState = SpriteState::DEAD;
 }
 
 SpriteState Sprite::getState() const {
@@ -270,8 +270,8 @@ bool Sprite::getWorldUpdateFlag() const {
 }
 
 void Sprite::onceToDead() {
-    if (mState == SpriteState::Once) {
-        mState = SpriteState::Dead;
+    if (mState == SpriteState::ONCE) {
+        mState = SpriteState::DEAD;
     }
 }
 

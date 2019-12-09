@@ -5,7 +5,7 @@
 SceneBase::SceneBase() :
     mUIManager(std::make_unique<UIManager>()),
     mSpriteManager(std::make_unique<SpriteManager>()),
-    mNext(Scene::None) {
+    mNext(Scene::NONE) {
 }
 
 SceneBase::~SceneBase() {

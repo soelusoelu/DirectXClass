@@ -4,9 +4,9 @@
 #include <memory>
 
 enum class SpriteState {
-    Active, //常に描画
-    Once, //一回描画後削除
-    Dead //描画せず削除
+    ACTIVE, //常に描画
+    ONCE, //一回描画後削除
+    DEAD //描画せず削除
 };
 
 class Shader;

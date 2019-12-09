@@ -35,7 +35,7 @@ void SpriteManager::add(std::shared_ptr<Sprite> add) {
 void SpriteManager::remove() {
     auto itr = mSprites.begin();
     while (itr != mSprites.end()) {
-        if ((*itr)->getState() == SpriteState::Dead) {
+        if ((*itr)->getState() == SpriteState::DEAD) {
             itr = mSprites.erase(itr);
         } else {
             ++itr;

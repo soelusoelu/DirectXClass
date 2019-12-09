@@ -3,7 +3,7 @@
 #include "SpriteManager.h"
 
 UI::UI() :
-    mState(UIState::Active) {
+    mState(UIState::ACTIVE) {
 }
 
 UI::~UI() {
@@ -13,7 +13,7 @@ UI::~UI() {
 }
 
 void UI::close() {
-    mState = UIState::Closing;
+    mState = UIState::CLOSING;
 }
 
 void UI::addSprite(std::shared_ptr<Sprite> add) {

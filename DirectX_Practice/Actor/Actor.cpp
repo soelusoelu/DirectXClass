@@ -9,7 +9,7 @@ Actor::Actor(const char* tag) :
     mComponentManager(std::make_shared<ComponentManagementOfActor>()),
     mTransform(std::make_shared<Transform2D>()),
     mDestroyTimer(nullptr),
-    mState(ActorState::Active),
+    mState(ActorState::ACTIVE),
     mTag(tag) {
     ActorManager::add(this);
 }
@@ -18,7 +18,7 @@ Actor::~Actor() = default;
 
 void Actor::update() {
     mComponentManager->start();
-    if (mState == ActorState::Active) {
+    if (mState == ActorState::ACTIVE) {
         computeWorldTransform();
 
         mComponentManager->update();
@@ -42,11 +42,11 @@ void Actor::computeWorldTransform() {
 }
 
 void Actor::destroy(Actor * actor) {
-    actor->mState = ActorState::Dead;
+    actor->mState = ActorState::DEAD;
 }
 
 void Actor::destroy(std::shared_ptr<Actor> actor) {
-    actor->mState = ActorState::Dead;
+    actor->mState = ActorState::DEAD;
 }
 
 void Actor::destroy(Actor * actor, float sec) {
@@ -85,6 +85,6 @@ void Actor::destroyTimer() {
     }
     mDestroyTimer->update();
     if (mDestroyTimer->isTime()) {
-        mState = ActorState::Dead;
+        mState = ActorState::DEAD;
     }
 }

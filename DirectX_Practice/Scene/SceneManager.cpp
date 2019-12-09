@@ -12,7 +12,7 @@ SceneManager::~SceneManager() = default;
 void SceneManager::update() {
     mCurrentScene->update();
 
-    if (mCurrentScene->getNextScene() != Scene::None) {
+    if (mCurrentScene->getNextScene() != Scene::NONE) {
         change(mCurrentScene->getNextScene());
     }
 }
@@ -23,11 +23,11 @@ void SceneManager::draw() const {
 
 void SceneManager::change(Scene next) {
     mCurrentScene.reset();
-    if (next == Scene::Title) {
+    if (next == Scene::TITLE) {
         mCurrentScene = std::make_shared<Title>();
-    } else if (next == Scene::Sousa) {
+    } else if (next == Scene::SOUSA) {
         mCurrentScene = std::make_shared<Sousa>();
-    } else if (next == Scene::GamePlay) {
+    } else if (next == Scene::GAME_PLAY) {
         mCurrentScene = std::make_shared<GamePlay>();
     }
 }

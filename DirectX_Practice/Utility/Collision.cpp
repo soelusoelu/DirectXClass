@@ -4,20 +4,20 @@
 #include <vector>
 
 Ray::Ray(const Vector3& start, const Vector3& end) :
-    mStart(start),
-    mEnd(end) {
+    start(start),
+    end(end) {
 }
 
 Vector3 Ray::pointOnSegment(float t) const {
-    return mStart + (mEnd - mStart) * t;
+    return start + (end - start) * t;
 }
 
 float Ray::minDistanceSquare(const Vector3& point) const {
     //ベクトルの準備
-    Vector3 ab = mEnd - mStart;
+    Vector3 ab = end - start;
     Vector3 ba = -1.0f * ab;
-    Vector3 ac = point - mStart;
-    Vector3 bc = point - mEnd;
+    Vector3 ac = point - start;
+    Vector3 bc = point - end;
 
     // Case 1: Aの外側
     if (Vector3::dot(ab, ac) < 0.0f) {
@@ -38,9 +38,9 @@ float Ray::minDistanceSquare(const Vector3& point) const {
 }
 
 float Ray::minDistanceSquare(const Ray& s1, const Ray& s2) {
-    Vector3   u = s1.mEnd - s1.mStart;
-    Vector3   v = s2.mEnd - s2.mStart;
-    Vector3   w = s1.mStart - s2.mStart;
+    Vector3   u = s1.end - s1.start;
+    Vector3   v = s2.end - s2.start;
+    Vector3   w = s1.start - s2.start;
     float    a = Vector3::dot(u, u);         // always >= 0
     float    b = Vector3::dot(u, v);
     float    c = Vector3::dot(v, v);         // always >= 0
@@ -106,66 +106,66 @@ float Ray::minDistanceSquare(const Ray& s1, const Ray& s2) {
 
 
 Circle::Circle() :
-    mCenter(Vector2::zero),
-    mRadius(0.f) {
+    center(Vector2::zero),
+    radius(0.f) {
 }
 
 Circle::Circle(const Vector2& center, float radius) :
-    mCenter(center),
-    mRadius(radius) {
+    center(center),
+    radius(radius) {
 }
 
 void Circle::set(const Vector2& center, float radius) {
-    mCenter = center;
-    mRadius = radius;
+    this->center = center;
+    this->radius = radius;
 }
 
 
 
 Sphere::Sphere() :
-    mCenter(Vector3::zero),
-    mRadius(0.f) {
+    center(Vector3::zero),
+    radius(0.f) {
 }
 
 Sphere::Sphere(const Vector3& center, float radius) :
-    mCenter(center),
-    mRadius(radius) {
+    center(center),
+    radius(radius) {
 }
 
 void Sphere::set(const Vector3& center, float radius) {
-    mCenter = center;
-    mRadius = radius;
+    this->center = center;
+    this->radius = radius;
 }
 
 bool Sphere::contains(const Vector3& point) const {
     //中心と点との距離の2乗を求める
-    float distSq = (mCenter - point).lengthSq();
-    return distSq <= (mRadius * mRadius);
+    float distSq = (center - point).lengthSq();
+    return distSq <= (radius * radius);
 }
 
 
 
 bool intersect(const Circle& a, const Circle& b) {
-    Vector2 dist = a.mCenter - b.mCenter;
+    Vector2 dist = a.center - b.center;
     float distSq = dist.lengthSq();
-    float sumRadius = a.mRadius + b.mRadius;
+    float sumRadius = a.radius + b.radius;
     return distSq <= (sumRadius * sumRadius);
 }
 
 bool intersect(const Sphere& a, const Sphere& b) {
-    Vector3 dist = a.mCenter - b.mCenter;
+    Vector3 dist = a.center - b.center;
     float distSq = dist.lengthSq();
-    float sumRadii = a.mRadius + b.mRadius;
+    float sumRadii = a.radius + b.radius;
     return distSq <= (sumRadii * sumRadii);
 }
 
 bool intersect(const Ray& r, const Sphere& s, float* outT) {
     //方程式のX, Y, a, b, cを計算
-    Vector3 X = r.mStart - s.mCenter;
-    Vector3 Y = r.mEnd - r.mStart;
+    Vector3 X = r.start - s.center;
+    Vector3 Y = r.end - r.start;
     float a = Vector3::dot(Y, Y);
     float b = 2.0f * Vector3::dot(X, Y);
-    float c = Vector3::dot(X, X) - s.mRadius * s.mRadius;
+    float c = Vector3::dot(X, X) - s.radius * s.radius;
     //判別式を計算
     float disc = b * b - 4.0f * a * c;
     if (disc < 0.0f) {
@@ -207,11 +207,11 @@ bool testSidePlane(float start, float end, float negd, const Vector3& norm, std:
 
 bool SweptSphere(const Sphere& P0, const Sphere& P1, const Sphere& Q0, const Sphere& Q1, float* outT) {
     //X, Y, a, b, cを計算
-    Vector3 X = P0.mCenter - Q0.mCenter;
-    Vector3 Y = P1.mCenter - P0.mCenter - (Q1.mCenter - Q0.mCenter);
+    Vector3 X = P0.center - Q0.center;
+    Vector3 Y = P1.center - P0.center - (Q1.center - Q0.center);
     float a = Vector3::dot(Y, Y);
     float b = 2.0f * Vector3::dot(X, Y);
-    float sumRadii = P0.mRadius + Q0.mRadius;
+    float sumRadii = P0.radius + Q0.radius;
     float c = Vector3::dot(X, X) - sumRadii * sumRadii;
     //判別式を解く
     float disc = b * b - 4.0f * a * c;
